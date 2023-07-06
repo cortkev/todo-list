@@ -54,8 +54,6 @@ function handleCreateProject() {
   if (projectName) {
     console.log('Creating project:', projectName);
     closeModal();
-
-    
   }
 
   const newDiv = createListBox();
