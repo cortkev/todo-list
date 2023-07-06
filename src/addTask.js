@@ -1,7 +1,9 @@
-function createListBox() {
+export default function createListBox() {
+  const parentDiv = document.createElement("div");
+  parentDiv.classList.add('modal');
+
     const newDiv = document.createElement("div");
     newDiv.classList.add('list-box');
-  
     function createLabel(text) {
       const label = document.createElement("label");
       label.textContent = text;
@@ -16,7 +18,7 @@ function createListBox() {
   
     const form = document.createElement("form");
     form.classList.add('list-form'); // Add a CSS class for centering the form
-  
+    // Set the method attribute to "post"
     const title = document.createElement("h1");
     title.classList.add('title');
     title.innerHTML = 'Add task';
@@ -34,15 +36,15 @@ function createListBox() {
       form.appendChild(textBox);
     }
   
-      // Create due date input
-      const dueDateLabel = createLabel("Due Date");
-      const dueDateInput = document.createElement("input");
-      dueDateInput.classList.add("due-date")
-      dueDateInput.type = "date";
-      dueDateInput.name = "dueDate";
+    // Create due date input
+    const dueDateLabel = createLabel("Due Date");
+    const dueDateInput = document.createElement("input");
+    dueDateInput.classList.add("due-date")
+    dueDateInput.type = "date";
+    dueDateInput.name = "dueDate";
     
-      form.appendChild(dueDateLabel);
-      form.appendChild(dueDateInput);
+    form.appendChild(dueDateLabel);
+    form.appendChild(dueDateInput);
   
     // Create priority selector
     const priorityLabel = createLabel("Priority");
@@ -70,6 +72,6 @@ function createListBox() {
     form.appendChild(submitButton);
   
     newDiv.appendChild(form);
-  
-    return newDiv;
-  }
+    parentDiv.appendChild(newDiv);
+    return parentDiv;
+}

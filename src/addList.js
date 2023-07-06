@@ -1,3 +1,4 @@
+import createListBox from "./addTask";
 
 function createModalElement() {
   const modal = document.createElement('div');
@@ -17,6 +18,7 @@ function createModalElement() {
   projectNameInput.setAttribute('type', 'text');
   projectNameInput.setAttribute('placeholder', 'Project Name');
 
+  // create project submit button
   const createProjectSubmitButton = document.createElement('button');
   createProjectSubmitButton.setAttribute('id', 'createProjectSubmitButton');
   createProjectSubmitButton.textContent = 'Create';
@@ -52,7 +54,12 @@ function handleCreateProject() {
   if (projectName) {
     console.log('Creating project:', projectName);
     closeModal();
+
+    
   }
+
+  const newDiv = createListBox();
+  showModal(newDiv);
 }
 
 export { createModalElement, showModal };
