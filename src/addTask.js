@@ -112,3 +112,5 @@ function task(formTitle, formDescription, dueDate, priority){
   this.dueDate = dueDate;
   this.priority = priority;
 }
+
+let taskListArray = [];

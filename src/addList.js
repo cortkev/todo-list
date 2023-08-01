@@ -53,11 +53,29 @@ function handleCreateProject() {
 
   if (projectName) {
     console.log('Creating project:', projectName);
+    createListCard(projectName);
     closeModal();
   }
 
   const newDiv = createListBox();
   showModal(newDiv);
+}
+
+//create a card for the list
+function createListCard(projectName){
+  const contentDiv = document.querySelector('.container');
+  const card = document.createElement("div");
+  card.classList.add("card");
+
+  // Create the card title (list name)
+  const cardTitle = document.createElement("h3");
+  cardTitle.classList.add("card-title");
+  cardTitle.textContent = projectName;
+  card.appendChild(cardTitle);
+  const cardContent = document.createElement('div');
+  cardContent.classList.add('card-content');
+  card.appendChild(cardContent);
+  contentDiv.appendChild(card);
 }
 
 export { createModalElement, showModal };

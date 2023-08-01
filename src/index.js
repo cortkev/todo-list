@@ -24,12 +24,3 @@ function createProject() {
 }
 // Call the function to add the create project button
 createProject();
-
-// function TodoItem(title, description, dueDate, priority) {
-//   this.title = title;
-//   this.description = description;
-//   this.dueDate = dueDate;
-//   this.priority = priority;
-// }
-
-//title, description, dueDate, priority
