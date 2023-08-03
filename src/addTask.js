@@ -1,3 +1,5 @@
+import { add } from "lodash";
+
 export default function createListBox() {
   const parentDiv = document.createElement("div");
   parentDiv.classList.add('modal');
@@ -16,6 +18,8 @@ export default function createListBox() {
   }
   const form = document.createElement("form");
   form.classList.add('list-form');
+  form.setAttribute('id', 'form');
+
   const title = document.createElement("h1");
   title.classList.add('title');
   title.innerHTML = 'Add task';
@@ -36,12 +40,12 @@ export default function createListBox() {
   // Create the label and text box for the title
   const titleLabel = createLabel("Title");
   const titleTextBox = createTextBox();
-  titleTextBox.setAttribute('id', 'title-text');
+  titleTextBox.setAttribute('id', 'titleInput');
   
   // Create the label and text box for the description
   const descriptionLabel = createLabel("Description");
   const descriptionTextBox = createTextBox();
-  descriptionTextBox.setAttribute('id', 'description-text');
+  descriptionTextBox.setAttribute('id', 'descriptionInput');
   
   // Append the label and text box to a container element
   //const container = document.querySelector("#container");
@@ -56,7 +60,7 @@ export default function createListBox() {
   const dueDateInput = document.createElement("input");
   dueDateInput.classList.add("due-date")
   dueDateInput.type = "date";
-  dueDateInput.name = "dueDate";
+  dueDateInput.setAttribute('id', 'dueDateInput')
   
   form.appendChild(dueDateLabel);
   form.appendChild(dueDateInput);
@@ -65,7 +69,7 @@ export default function createListBox() {
   const priorityLabel = createLabel("Priority");
   const prioritySelect = document.createElement("select");
   prioritySelect.classList.add("select");
-  prioritySelect.name = "priority";
+  prioritySelect.setAttribute('id', 'prioritySelect')
 
   // Create option elements for different priorities
   const priorities = ["Low", "Medium", "High"];
@@ -86,17 +90,18 @@ export default function createListBox() {
   submitButton.value = "Submit";
   form.appendChild(submitButton);
 
-  submitButton.addEventListener("click", () => {
-    const formTitle = titleTextBox.value;
-    const formDescription = descriptionTextBox.value;
-    const dueDate = dueDateInput.value;
-    const priority = prioritySelect.value;
+  
 
-    console.log("Title:", formTitle);
-    console.log("Description:", formDescription);
-    console.log("Due Date:", dueDate);
-    console.log("Priority:", priority);
+  submitButton.addEventListener("click", (event) => {
+    event.preventDefault()
+    // console.log("Title:", formTitle);
+    // console.log("Description:", formDescription);
+    // console.log("Due Date:", dueDate);
+    // console.log("Priority:", priority);
 
+    
+    //add task function
+    addTaskToList();
     parentDiv.remove();
   });
 
@@ -106,11 +111,62 @@ export default function createListBox() {
   return parentDiv;
 }
 
-function task(formTitle, formDescription, dueDate, priority){
+const tasks = [];
+
+function Task(formTitle, formDescription, dueDate, priority){
   this.formTitle = formTitle;
   this.formDescription = formDescription;
   this.dueDate = dueDate;
   this.priority = priority;
 }
 
-let taskListArray = [];
+function addTaskToList(){
+  const titleInput = document.getElementById("titleInput");
+  const descriptionInput = document.getElementById("descriptionInput");
+  const dueDateInput = document.getElementById("dueDateInput");
+  const prioritySelect = document.getElementById("prioritySelect");
+  
+  const formTitle = titleInput.value;
+  const formDescription = descriptionInput.value;
+  const dueDate = dueDateInput.value;
+  const priority = prioritySelect.value;
+
+  const newTask = new Task(formTitle, formDescription, dueDate, priority);
+  
+  tasks.push(newTask);
+  console.log(tasks);
+
+  updateTaskList();
+}
+
+
+
+function updateTaskList(){
+  const listContainer = document.getElementById('list-container');
+  listContainer.innerHTML = '';
+  tasks.forEach((task) => {
+    const taskContainer = document.createElement('div');
+    const titleContainer = document.createElement('div');
+    const descriptionContainer = document.createElement('div');
+    const dueDateContainer = document.createElement('div');
+    const priorityContainer = document.createElement('div');
+
+    titleContainer.textContent = task.formTitle;
+    descriptionContainer.textContent = task.formDescription;
+    dueDateContainer.textContent = task.dueDate;
+    priorityContainer.textContent = task.priority;
+
+    taskContainer.appendChild(titleContainer);
+    taskContainer.appendChild(descriptionContainer);
+    taskContainer.appendChild(dueDateContainer);
+    taskContainer.appendChild(priorityContainer);
+
+    listContainer.appendChild(taskContainer);
+  });
+  
+}
+
+
+//add task information with a bottom border separating
+//the tasks within the list
+//also include an edit and delete button form them
