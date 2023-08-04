@@ -17,6 +17,7 @@ body {
 .container{
   background-color: white;
   min-height: 100vh;
+  display: flex;
 }
 
 .card{
@@ -26,6 +27,8 @@ body {
   width: 300px;
   text-align: center;
   background-color: #007bff;
+  /* keep height from being too large */
+  max-height: 550px;
 }
 
 .card-title{
@@ -39,7 +42,7 @@ body {
 .card-content{
   background-color: white;
   height: 400px;
-  border-radius: 0 0 15px 15px;
+  padding: 20px;
 }
 
 .modal {
@@ -181,3 +184,13 @@ select{
   margin-top: 40px;
 }
 
+#add-task-button{
+  background-color: white;
+  color: #007bff;
+  border-style: none;
+  border-radius: 5px;
+  margin: 10px;
+  height: 30px;
+  width: 100px;
+  cursor: pointer;
+}

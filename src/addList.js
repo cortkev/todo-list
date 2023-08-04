@@ -18,21 +18,6 @@ function createModalElement() {
   projectNameInput.setAttribute('type', 'text');
   projectNameInput.setAttribute('placeholder', 'Project Name');
 
-  //add the option to add a task on the card itself instead
-
-  // if(projects.length != 0){
-  //   const orText = document.createElement('p');
-  //   orText.textContent = 'or';
-
-  //   const selectElement = document.createElement('select');
-
-  //   projects.forEach((project) => {
-  //     const option = document.createElement('option');
-  //     option.value = project.name;
-  //     option.textContent = project.name;
-  //     selectElement.appendChild(option);
-  //   });
-  // }
 
   // create project submit button
   const createProjectSubmitButton = document.createElement('button');
@@ -41,6 +26,13 @@ function createModalElement() {
 
   closeSpan.addEventListener('click', closeModal);
   createProjectSubmitButton.addEventListener('click', handleCreateProject);
+  
+  projectNameInput.addEventListener('keypress', (event) => {
+    if (event.key === 'Enter') {
+      event.preventDefault(); // Prevent form submission via Enter key
+      handleCreateProject();
+    }
+  });
 
   modalContent.appendChild(closeSpan);
   modalContent.appendChild(heading);
@@ -97,7 +89,13 @@ function createListCard(projectName){
   const cardContent = document.createElement('div');
   cardContent.classList.add('card-content');
   cardContent.setAttribute('id', 'list-container');
+
   card.appendChild(cardContent);
+  const addTaskButton = document.createElement('button');
+  addTaskButton.setAttribute('id', 'add-task-button');
+  addTaskButton.textContent = 'Add Task';
+  card.appendChild(addTaskButton);
+
   contentDiv.appendChild(card);
 }
 
