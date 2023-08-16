@@ -1,5 +1,11 @@
 import { add, create } from "lodash";
 
+function Task(formTitle, formDescription, dueDate, priority){
+  this.formTitle = formTitle;
+  this.formDescription = formDescription;
+  this.dueDate = dueDate;
+  this.priority = priority;
+}
 //function to create a modal that asks for task info
 function createTaskForm(listDiv) {
   const parentDiv = document.createElement("div");
@@ -107,19 +113,13 @@ function createTaskForm(listDiv) {
 
 //add task div to list div
 function addTask(listDiv){
-  const taskDiv = createTask();
+  const taskDiv = createTask(listDiv);
   if(taskDiv){
     listDiv.querySelector(".card-content").appendChild(taskDiv);
   }
 }
 
-function createTask(){
-  function Task(formTitle, formDescription, dueDate, priority){
-    this.formTitle = formTitle;
-    this.formDescription = formDescription;
-    this.dueDate = dueDate;
-    this.priority = priority;
-  }
+function createTask(listDiv){
   //get information from the modal
   const titleInput = document.getElementById("titleInput");
   const descriptionInput = document.getElementById("descriptionInput");
@@ -133,9 +133,13 @@ function createTask(){
 
   const newTask = new Task(formTitle, formDescription, dueDate, priority);
   const taskName = titleInput.value.trim();
-  console.log(newTask);
 
   if(taskName){
+    // Push the newTask into the tasks array of the current project
+    if (taskName && listDiv && listDiv.project) {
+      listDiv.project.tasks.push(newTask);
+  }
+
     const taskDiv = document.createElement('div');
     taskDiv.className = 'task';
     taskDiv.textContent = taskName;

@@ -1,6 +1,11 @@
 import { create } from "lodash";
 import {createTaskForm} from "./addTask";
 
+const projects = [];
+function Project(name){
+  this.name = name;
+  this.tasks = [];
+}
 //modal for the list creation
 function createProjectModal() {
   const modal = document.createElement('div');
@@ -60,11 +65,17 @@ function closeModal() {
 function createList(){
   const listContainer = document.querySelector('.container');
   const projectNameInput = document.querySelector('input[type="text"]');
-  let projectName = projectNameInput.value.trim();
+  const projectName = projectNameInput.value.trim();
+  
 
   if(projectName){
+    const newProject = new Project(projectName);
+    projects.push(newProject);
     const listDiv = document.createElement("div");
     listDiv.classList.add("card");
+    // Associate the project property with the listDiv
+    listDiv.project = newProject;
+
     //List title
     const cardTitle = document.createElement("h3");
     cardTitle.classList.add("card-title");
@@ -83,6 +94,7 @@ function createList(){
     //click add task
     addTaskButton.addEventListener("click", function () {
       showModal(createTaskForm(listDiv));
+      console.log(projects);
     });
 
     listDiv.appendChild(cardTitle);
@@ -93,7 +105,5 @@ function createList(){
   }
   closeModal();
 }
-
-
 
 export { createProjectModal, showModal };
