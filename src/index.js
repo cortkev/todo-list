@@ -1,10 +1,8 @@
 import _, { add } from 'lodash';
-import { createModalElement, showModal } from './addList';
+import { createProjectModal, showModal } from './addList';
 import './style.css';
 
-const contentDiv = document.querySelector('.container');
-
-function createProject() {
+function createProjectContainer() {
   // Get the container element where the button will be appended
   const headerDiv = document.querySelector('.header-div');
 
@@ -15,7 +13,7 @@ function createProject() {
 
   // Add an event listener to handle the button click
   createProjectButton.addEventListener("click", () => {
-    const modal = createModalElement();
+    const modal = createProjectModal();
     showModal(modal);
   });
 
@@ -23,4 +21,4 @@ function createProject() {
   headerDiv.appendChild(createProjectButton);
 }
 // Call the function to add the create project button
-createProject();
+createProjectContainer();
