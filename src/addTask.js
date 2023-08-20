@@ -7,7 +7,7 @@ function Task(formTitle, formDescription, dueDate, priority){
   this.priority = priority;
 }
 //function to create a modal that asks for task info
-function createTaskForm(listDiv) {
+function createTaskForm(project) {
   const parentDiv = document.createElement("div");
   parentDiv.classList.add('modal');
 
@@ -100,7 +100,7 @@ function createTaskForm(listDiv) {
   //add the task to the list with the given information
   submitButton.addEventListener("click", (event) => {
     event.preventDefault()
-    addTask(listDiv);
+    addTask(project);
     form.reset();
     parentDiv.remove();
   });
@@ -111,16 +111,8 @@ function createTaskForm(listDiv) {
   return parentDiv;
 }
 
-//add task div to list div
-function addTask(listDiv){
-  const taskDiv = createTask(listDiv);
-  if(taskDiv){
-    listDiv.querySelector(".card-content").appendChild(taskDiv);
-  }
-}
-
-function createTask(listDiv){
-  //get information from the modal
+//add task div to project div
+function addTask(project){
   const titleInput = document.getElementById("titleInput");
   const descriptionInput = document.getElementById("descriptionInput");
   const dueDateInput = document.getElementById("dueDateInput");
@@ -131,21 +123,38 @@ function createTask(listDiv){
   const dueDate = dueDateInput.value;
   const priority = prioritySelect.value;
 
-  const newTask = new Task(formTitle, formDescription, dueDate, priority);
   const taskName = titleInput.value.trim();
-
   if(taskName){
-    // Push the newTask into the tasks array of the current project
-    if (taskName && listDiv && listDiv.project) {
-      listDiv.project.tasks.push(newTask);
-  }
-
-    const taskDiv = document.createElement('div');
-    taskDiv.className = 'task';
-    taskDiv.textContent = taskName;
-    console.log(taskName);
-    return taskDiv
+    const newTask = new Task(formTitle, formDescription, dueDate, priority);
+    project.tasks.push(newTask);
+    updateTaskUI(project);
   }
 }
 
-export { createTaskForm};
+function updateTaskUI(project){
+  const cardContent = document.querySelector('.card-content');
+  cardContent.innerHTML = '';
+  project.tasks.forEach(task => {
+    const taskElement = createTaskDiv(task);
+    cardContent.appendChild(taskElement);
+  })
+}
+
+function createTaskDiv(task){
+  const taskElement = document.createElement('li');
+  taskElement.classList.add('task-summary');
+
+  // Display task title and due date
+  const titleElement = document.createElement('span');
+  titleElement.textContent = task.formTitle;
+
+  const dueDateElement = document.createElement('span');
+  dueDateElement.textContent = task.dueDate;
+
+  taskElement.appendChild(titleElement);
+  taskElement.appendChild(dueDateElement);
+
+  return taskElement;
+}
+
+export { createTaskForm, updateTaskUI};

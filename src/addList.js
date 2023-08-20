@@ -1,12 +1,15 @@
 import { create } from "lodash";
-import {createTaskForm} from "./addTask";
+import {createTaskForm, updateTaskUI} from "./addTask";
+
+
 
 const projects = [];
 function Project(name){
   this.name = name;
   this.tasks = [];
 }
-//modal for the list creation
+
+//modal for the project creation
 function createProjectModal() {
   const modal = document.createElement('div');
   modal.classList.add('modal');
@@ -32,12 +35,12 @@ function createProjectModal() {
   createProjectSubmitButton.textContent = 'Create';
 
   closeSpan.addEventListener('click', closeModal);
-  createProjectSubmitButton.addEventListener('click', createList);
+  createProjectSubmitButton.addEventListener('click', addProject);
   
   projectNameInput.addEventListener('keypress', (event) => {
     if (event.key === 'Enter') {
       event.preventDefault();
-      createList();
+      addProject();
     }
   });
 
@@ -62,48 +65,64 @@ function closeModal() {
   modal.remove();
 }
 
-function createList(){
-  const listContainer = document.querySelector('.container');
+function addProject(){
   const projectNameInput = document.querySelector('input[type="text"]');
   const projectName = projectNameInput.value.trim();
   
-
   if(projectName){
-    const newProject = new Project(projectName);
-    projects.push(newProject);
-    const listDiv = document.createElement("div");
-    listDiv.classList.add("card");
-    // Associate the project property with the listDiv
-    listDiv.project = newProject;
-
-    //List title
-    const cardTitle = document.createElement("h3");
-    cardTitle.classList.add("card-title");
-    cardTitle.textContent = projectName;
-    console.log(projectName);
-
-    //card content
-    const cardContent = document.createElement('div');
-    cardContent.classList.add('card-content');
-
-    //add task button
-    const addTaskButton = document.createElement('button');
-    addTaskButton.setAttribute('id', 'add-task-button');
-    addTaskButton.textContent = 'Add Task';
-
-    //click add task
-    addTaskButton.addEventListener("click", function () {
-      showModal(createTaskForm(listDiv));
-      console.log(projects);
-    });
-
-    listDiv.appendChild(cardTitle);
-    listDiv.appendChild(cardContent);
-    listDiv.appendChild(addTaskButton);
-
-    listContainer.appendChild(listDiv);
+  const newProject = new Project(projectName);
+  projects.push(newProject);
+  updateProjectUI();
   }
   closeModal();
+}
+  
+
+function updateProjectUI(){
+  //iterate through projects array and create a div for each project
+  const projectContainer = document.querySelector('.container');
+  projectContainer.innerHTML = '';
+  projects.forEach(project => {
+    const projectDiv = createProjectDiv(project);
+    projectContainer.appendChild(projectDiv);
+    //causing issues
+    updateTaskUI(project);
+    console.log(projects);
+    
+  });
+}
+
+function createProjectDiv(project){
+  //the project div
+  const projectDiv = document.createElement("div");
+  projectDiv.classList.add("card");
+
+  //project title
+  const cardTitle = document.createElement("h3");
+  cardTitle.classList.add("card-title");
+  cardTitle.textContent = project.name;
+
+  //project content where tasks will be shown
+  const cardContent = document.createElement('div');
+  cardContent.classList.add('card-content');
+
+  //add task button
+  const addTaskButton = document.createElement('button');
+  addTaskButton.setAttribute('id', 'add-task-button');
+  addTaskButton.textContent = 'Add Task';
+  //click add task
+  addTaskButton.addEventListener("click", function () {
+    showModal(createTaskForm(project));
+    
+  });
+
+  projectDiv.appendChild(cardTitle);
+  projectDiv.appendChild(cardContent);
+  projectDiv.appendChild(addTaskButton);
+
+
+  return projectDiv;
+  
 }
 
 export { createProjectModal, showModal };
