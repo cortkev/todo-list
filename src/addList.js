@@ -27,6 +27,8 @@ function createProjectModal() {
   const projectNameInput = document.createElement('input');
   projectNameInput.setAttribute('type', 'text');
   projectNameInput.setAttribute('placeholder', 'Project Name');
+  projectNameInput.setAttribute('id', 'project-name-input');
+  
 
 
   // create project submit button
@@ -57,6 +59,8 @@ function showModal(modal) {
   const body = document.querySelector('body');
   body.appendChild(modal);
   modal.style.display = 'block';
+  // const projectNameInput = document.querySelector('#project-name-input');
+  // projectNameInput.focus();
 }
 
 function closeModal() {
@@ -68,10 +72,10 @@ function closeModal() {
 function addProject(){
   const projectNameInput = document.querySelector('input[type="text"]');
   const projectName = projectNameInput.value.trim();
-  
   if(projectName){
   const newProject = new Project(projectName);
   projects.push(newProject);
+  
   updateProjectUI();
   }
   closeModal();
@@ -80,12 +84,11 @@ function addProject(){
 
 function updateProjectUI(){
   //iterate through projects array and create a div for each project
-  const projectContainer = document.querySelector('.container');
-  projectContainer.innerHTML = '';
+  const projectsContainer = document.querySelector('.container');
+  projectsContainer.innerHTML = '';
   projects.forEach(project => {
-    const projectDiv = createProjectDiv(project);
-    projectContainer.appendChild(projectDiv);
-    //causing issues
+    //creates the projectDiv
+    projectsContainer.appendChild(createProjectDiv(project)); 
     updateTaskUI(project);
     console.log(projects);
     
@@ -93,6 +96,7 @@ function updateProjectUI(){
 }
 
 function createProjectDiv(project){
+  giveProjectId();
   //the project div
   const projectDiv = document.createElement("div");
   projectDiv.classList.add("card");
@@ -105,11 +109,12 @@ function createProjectDiv(project){
   //project content where tasks will be shown
   const cardContent = document.createElement('div');
   cardContent.classList.add('card-content');
+  cardContent.setAttribute('data-project-id', project.id); 
 
   //add task button
   const addTaskButton = document.createElement('button');
   addTaskButton.setAttribute('id', 'add-task-button');
-  addTaskButton.textContent = 'Add Task';
+  addTaskButton.textContent = 'Add Task +';
   //click add task
   addTaskButton.addEventListener("click", function () {
     showModal(createTaskForm(project));
@@ -120,9 +125,17 @@ function createProjectDiv(project){
   projectDiv.appendChild(cardContent);
   projectDiv.appendChild(addTaskButton);
 
-
   return projectDiv;
-  
 }
+
+function giveProjectId(){
+  let i = 0;
+    projects.map(project => {
+      project['id'] = i;
+      i++;
+    })
+    const index = projects.map(newProject => newProject.id);
+}
+
 
 export { createProjectModal, showModal };

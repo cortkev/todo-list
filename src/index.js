@@ -9,7 +9,7 @@ function createProjectContainer() {
   // Create the button element
   const createProjectButton = document.createElement("button");
   createProjectButton.classList.add('button');
-  createProjectButton.textContent = "Create Project";
+  createProjectButton.textContent = "Create Project +";
 
   // Add an event listener to handle the button click
   createProjectButton.addEventListener("click", () => {

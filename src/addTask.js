@@ -40,6 +40,7 @@ function createTaskForm(project) {
   
   function createTextBox() {
     const textBox = document.createElement("input");
+    textBox.classList.add('text-box')
     textBox.type = "text";
     return textBox;
   }
@@ -132,12 +133,13 @@ function addTask(project){
 }
 
 function updateTaskUI(project){
-  const cardContent = document.querySelector('.card-content');
-  cardContent.innerHTML = '';
+  const cardContent = document.querySelector(`[data-project-id="${project.id}"]`);
+
+  console.log(project.id);
+    cardContent.innerHTML = '';
   project.tasks.forEach(task => {
-    const taskElement = createTaskDiv(task);
-    cardContent.appendChild(taskElement);
-  })
+    cardContent.appendChild(createTaskDiv(task));
+  });
 }
 
 function createTaskDiv(task){
@@ -146,9 +148,11 @@ function createTaskDiv(task){
 
   // Display task title and due date
   const titleElement = document.createElement('span');
+  titleElement.setAttribute('id', 'title-text')
   titleElement.textContent = task.formTitle;
 
   const dueDateElement = document.createElement('span');
+  dueDateElement.setAttribute('id', 'due-date-text')
   dueDateElement.textContent = task.dueDate;
 
   taskElement.appendChild(titleElement);

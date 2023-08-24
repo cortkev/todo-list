@@ -15,14 +15,14 @@ body {
 }
 
 .container{
-  background-color: white;
+  background-color: #212121;
   min-height: 100vh;
   display: flex;
 }
 
 .card{
-  border: 2px solid #007bff;
-  border-radius: 15px;
+  /* border: 2px solid #007bff; */
+  border-radius: 5px;
   margin: 10px;
   width: 300px;
   text-align: center;
@@ -40,7 +40,7 @@ body {
 }
 
 .card-content{
-  background-color: white;
+  background-color: #303030;
   height: 400px;
   padding: 20px;
 }
@@ -64,22 +64,43 @@ body {
   max-width: 700px;
   min-width: 400px;
   border-radius: 20px;
-  background-color: white;
+  background-color: #303030;
   margin: 15% auto;
 }
 
+/* add task modal */
 .list-form{
   display: flex;
   flex-direction: column;
   align-items: center;
   padding-top: 50px;
+  background: #303030;
 }
+
 input[type=text] {
   width: 75%;
   padding: 12px 20px;
   margin: 8px 0;
   box-sizing: border-box;
-  border-radius: 10px;
+  border-radius: 5px;
+  border-style: none;
+}
+
+#project-name-input{
+  background-color: #424242;
+  color: white;
+  font-size: 1rem;
+}
+
+#project-name-input:focus{
+  border-color: black;
+}
+
+.text-box{
+  background-color: #424242;
+  color: white;
+  font-size: 1rem;
+  border-style: none;
 }
 
 select{
@@ -89,6 +110,11 @@ select{
   box-sizing: border-box;
   text-align: center;
   border-radius: 10px;
+  background-color: #424242;
+  color: white;
+  font-size: 1rem;
+  border-style: none;
+  cursor: pointer;
 }
 
 .due-date{
@@ -98,6 +124,12 @@ select{
   box-sizing: border-box;
   text-align: center;
   border-radius: 10px;
+  background-color: #424242;
+  color: white;
+  font-size: 1rem;
+  border-style: none;
+  cursor: pointer;
+  
 }
 
 .submit-button{
@@ -120,36 +152,38 @@ select{
 }
 
 .header-div{
-  color: white;
+  color: #007bff;
   display: flex;
   justify-content: space-between;
   align-items: center;
   font-size: 2rem;
   padding: 20px;
-  background-color: #007bff;
+  background-color: #303030;
 }
 
 .button{
   padding: 5px 15px;
-  background: white;
-  color: #007bff;
+  background: #424242;
+  color: white;
   border: 0 none;
   cursor: pointer;
-  border-radius: 10px;
+  border-radius: 5px;
   height: 40px;
   width: 200px;
   font-size: 1.3rem;
   font-weight: bold;
 }
 
-
+.button:hover {
+  background-color: #525252 /* Change to the desired hover background color */
+}
 
 .modal-content {
-  background-color: #fefefe;
+  background-color: #303030;
   margin: 15% auto;
   padding: 20px;
   width: 300px;
-  border-radius: 20px;
+  border-radius: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -172,11 +206,11 @@ select{
 
 #createProjectSubmitButton{
   padding: 5px 15px;
-  background: #007bff;
+  background: #424242;
   color: white;
   border: 0 none;
   cursor: pointer;
-  border-radius: 10px;
+  border-radius: 5px;
   height: 40px;
   width: 200px;
   font-size: 1.3rem;
@@ -184,15 +218,39 @@ select{
   margin-top: 40px;
 }
 
+
+/* project */
 #add-task-button{
-  background-color: white;
-  color: #007bff;
+  background: #424242;
+  color: white;
   border-style: none;
-  border-radius: 5px;
+  border-radius: 3px;
   margin: 10px;
   height: 30px;
   width: 100px;
   cursor: pointer;
   font-weight: bold;
   font-size: 1rem;
+}
+
+#add-task-button:hover{
+  background-color: #525252 /* Change to the desired hover background color */
+}
+
+.task-summary{
+  background-color: #424242;
+  color:  white;
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  margin-bottom: 3px;
+  border-radius: 3px;
+}
+
+#due-date-text{
+  font-size: 12px;
+}
+
+#title-text{
+  font-size: 1.5rem;
 }
