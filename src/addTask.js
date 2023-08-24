@@ -47,13 +47,19 @@ function createTaskForm(project) {
   
   // Create the label and text box for the title
   const titleLabel = createLabel("Title");
+  titleLabel.setAttribute('id', 'label');
+  
   const titleTextBox = createTextBox();
   titleTextBox.setAttribute('id', 'titleInput');
+  titleTextBox.classList.add('first-text-box');
+  titleTextBox.setAttribute('placeholder', 'Task Name');
   
   // Create the label and text box for the description
   const descriptionLabel = createLabel("Description");
-  const descriptionTextBox = createTextBox();
-  descriptionTextBox.setAttribute('id', 'descriptionInput');
+  descriptionLabel.setAttribute('id', 'label');
+  const descriptionTextBox = document.createElement('textarea');
+  descriptionTextBox.setAttribute('id', 'description-input');
+  descriptionTextBox.setAttribute('placeholder', 'Description');
   
   // Append the label and text box to a container element
   //const container = document.querySelector("#container");
@@ -65,6 +71,7 @@ function createTaskForm(project) {
   
   // Create due date input
   const dueDateLabel = createLabel("Due Date");
+  dueDateLabel.setAttribute('id', 'label');
   const dueDateInput = document.createElement("input");
   dueDateInput.classList.add("due-date")
   dueDateInput.type = "date";
@@ -75,6 +82,7 @@ function createTaskForm(project) {
   
   // Create priority selector
   const priorityLabel = createLabel("Priority");
+  priorityLabel.setAttribute('id', 'label');
   const prioritySelect = document.createElement("select");
   prioritySelect.classList.add("select");
   prioritySelect.setAttribute('id', 'prioritySelect')
@@ -115,7 +123,7 @@ function createTaskForm(project) {
 //add task div to project div
 function addTask(project){
   const titleInput = document.getElementById("titleInput");
-  const descriptionInput = document.getElementById("descriptionInput");
+  const descriptionInput = document.getElementById("description-input");
   const dueDateInput = document.getElementById("dueDateInput");
   const prioritySelect = document.getElementById("prioritySelect");
   

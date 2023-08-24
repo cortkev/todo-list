@@ -28,9 +28,9 @@ function createProjectModal() {
   projectNameInput.setAttribute('type', 'text');
   projectNameInput.setAttribute('placeholder', 'Project Name');
   projectNameInput.setAttribute('id', 'project-name-input');
+  projectNameInput.classList.add('text-box')
+  projectNameInput.classList.add('first-text-box');
   
-
-
   // create project submit button
   const createProjectSubmitButton = document.createElement('button');
   createProjectSubmitButton.setAttribute('id', 'createProjectSubmitButton');
@@ -59,8 +59,9 @@ function showModal(modal) {
   const body = document.querySelector('body');
   body.appendChild(modal);
   modal.style.display = 'block';
-  // const projectNameInput = document.querySelector('#project-name-input');
-  // projectNameInput.focus();
+  //focus on the first text box
+  const firstTextBox = document.querySelector('.first-text-box');
+  firstTextBox.focus();
 }
 
 function closeModal() {

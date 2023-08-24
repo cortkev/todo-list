@@ -77,15 +77,6 @@ body {
   background: #303030;
 }
 
-input[type=text] {
-  width: 75%;
-  padding: 12px 20px;
-  margin: 8px 0;
-  box-sizing: border-box;
-  border-radius: 5px;
-  border-style: none;
-}
-
 #project-name-input{
   background-color: #424242;
   color: white;
@@ -97,10 +88,28 @@ input[type=text] {
 }
 
 .text-box{
+  width: 75%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  box-sizing: border-box;
+  border-radius: 5px;
+  border-style: none;
   background-color: #424242;
   color: white;
   font-size: 1rem;
+}
+
+#description-input{
+  height: 150px;
+  width: 75%;
+  padding: 12px 20px;
+  box-sizing: border-box;
   border-style: none;
+  border-radius: 5px;
+  background-color: #404040;
+  font-size: 16px;
+  resize: none;
+  color: white;
 }
 
 select{
@@ -129,7 +138,6 @@ select{
   font-size: 1rem;
   border-style: none;
   cursor: pointer;
-  
 }
 
 .submit-button{
@@ -161,7 +169,7 @@ select{
   background-color: #303030;
 }
 
-.button{
+.create-project-button{
   padding: 5px 15px;
   background: #424242;
   color: white;
@@ -174,7 +182,7 @@ select{
   font-weight: bold;
 }
 
-.button:hover {
+.create-project-button:hover {
   background-color: #525252 /* Change to the desired hover background color */
 }
 
@@ -218,6 +226,10 @@ select{
   margin-top: 40px;
 }
 
+#createProjectSubmitButton:hover{
+  background-color: #525252;
+}
+
 
 /* project */
 #add-task-button{
@@ -254,3 +266,8 @@ select{
 #title-text{
   font-size: 1.5rem;
 }
+
+#label{
+  color: white;
+}
+
