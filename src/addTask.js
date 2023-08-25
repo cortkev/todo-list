@@ -1,10 +1,11 @@
 import { add, create } from "lodash";
 
-function Task(formTitle, formDescription, dueDate, priority){
+function Task(formTitle, formDescription, dueDate, priority, isChecked){
   this.formTitle = formTitle;
   this.formDescription = formDescription;
   this.dueDate = dueDate;
   this.priority = priority;
+  this.isChecked = isChecked;
 }
 //function to create a modal that asks for task info
 function createTaskForm(project) {
@@ -131,10 +132,11 @@ function addTask(project){
   const formDescription = descriptionInput.value;
   const dueDate = dueDateInput.value;
   const priority = prioritySelect.value;
+  const isChecked = false;
 
   const taskName = titleInput.value.trim();
   if(taskName){
-    const newTask = new Task(formTitle, formDescription, dueDate, priority);
+    const newTask = new Task(formTitle, formDescription, dueDate, priority, isChecked);
     project.tasks.push(newTask);
     updateTaskUI(project);
   }
@@ -150,23 +152,66 @@ function updateTaskUI(project){
   });
 }
 
-function createTaskDiv(task){
-  const taskElement = document.createElement('li');
+function createTaskDiv(task) {
+  const taskElement = document.createElement('div');
   taskElement.classList.add('task-summary');
 
-  // Display task title and due date
+  // Wrap checkbox in its own div
+  const checkboxDiv = document.createElement('div');
+  checkboxDiv.classList.add('checkbox-div');
+  const checkbox = document.createElement('input');
+  checkbox.type = 'checkbox';
+  checkbox.setAttribute('id', 'checkbox');
+  checkbox.checked = task.completed;
+  checkboxDiv.appendChild(checkbox);
+
+  // Wrap title element in its own div
+  const titleDiv = document.createElement('div');
+  titleDiv.classList.add('title-div');
   const titleElement = document.createElement('span');
-  titleElement.setAttribute('id', 'title-text')
   titleElement.textContent = task.formTitle;
+  titleElement.setAttribute('id', 'title-text')
+  titleDiv.appendChild(titleElement);
 
+  // Wrap due date element in its own div
+  const dueDateDiv = document.createElement('div');
+  dueDateDiv.classList.add('due-date-div');
   const dueDateElement = document.createElement('span');
-  dueDateElement.setAttribute('id', 'due-date-text')
   dueDateElement.textContent = task.dueDate;
+  dueDateElement.setAttribute('id', 'due-date-text')
+  dueDateDiv.appendChild(dueDateElement);
 
-  taskElement.appendChild(titleElement);
-  taskElement.appendChild(dueDateElement);
+  // Append wrapped elements to the task element
+  taskElement.appendChild(checkboxDiv);
+  taskElement.appendChild(titleDiv);
+  taskElement.appendChild(dueDateDiv);
+
+  checkbox.addEventListener('change', function() {
+    if (checkbox.checked) {
+      // Checkbox is now checked
+      task.isChecked = true
+      titleElement.classList.add('strikethrough');
+      dueDateElement.classList.add('strikethrough');
+
+      titleElement.classList.add('checked');
+      dueDateElement.classList.add('checked');
+      console.log(task);
+    } else {
+      // Checkbox is now unchecked
+      task.isChecked = false;
+      titleElement.classList.remove('strikethrough');
+      dueDateElement.classList.remove('strikethrough');
+      titleElement.classList.remove('checked');
+      dueDateElement.classList.remove('checked');
+      console.log(task);
+    }
+  });
 
   return taskElement;
 }
 
+//edit task function
+
 export { createTaskForm, updateTaskUI};
+
+

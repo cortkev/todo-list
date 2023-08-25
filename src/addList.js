@@ -138,5 +138,7 @@ function giveProjectId(){
     const index = projects.map(newProject => newProject.id);
 }
 
+//edit list name function
+
 
 export { createProjectModal, showModal };
