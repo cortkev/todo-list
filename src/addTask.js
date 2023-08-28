@@ -1,4 +1,5 @@
 import { add, create } from "lodash";
+import {closeModal, showModal} from "./addList";
 
 function Task(formTitle, formDescription, dueDate, priority, isChecked){
   this.formTitle = formTitle;
@@ -14,6 +15,13 @@ function createTaskForm(project) {
 
   const newDiv = document.createElement("div");
   newDiv.classList.add('list-box');
+
+  const closeSpan = document.createElement('span');
+  closeSpan.classList.add('close');
+  closeSpan.setAttribute('id', 'task-close');
+  closeSpan.innerHTML = '&times;';
+
+
   function createLabel(text) {
     const label = document.createElement("label");
     label.textContent = text;
@@ -45,6 +53,8 @@ function createTaskForm(project) {
     textBox.type = "text";
     return textBox;
   }
+
+  closeSpan.addEventListener('click', closeModal);
   
   // Create the label and text box for the title
   const titleLabel = createLabel("Title");
@@ -115,6 +125,7 @@ function createTaskForm(project) {
     parentDiv.remove();
   });
 
+  newDiv.appendChild(closeSpan);
   newDiv.appendChild(form);
   parentDiv.appendChild(newDiv);
 
@@ -207,10 +218,140 @@ function createTaskDiv(task) {
     }
   });
 
+  taskElement.addEventListener('click', function() {
+    showModal(editTaskForm(task));
+  });
+
   return taskElement;
 }
 
-//edit task function
+function editTaskForm(task) {
+  console.log(task);
+  const parentDiv = document.createElement("div");
+  parentDiv.classList.add('modal');
+
+  const newDiv = document.createElement("div");
+  newDiv.classList.add('list-box');
+
+  const closeSpan = document.createElement('span');
+  closeSpan.classList.add('close');
+  closeSpan.setAttribute('id', 'task-close');
+  closeSpan.innerHTML = '&times;';
+
+
+  function createLabel(text) {
+    const label = document.createElement("label");
+    label.textContent = text;
+    return label;
+  }
+  function createTextBox() {
+    const textBox = document.createElement("input");
+    textBox.type = "text";
+    return textBox;
+  }
+  const form = document.createElement("form");
+  form.classList.add('list-form');
+  form.setAttribute('id', 'form');
+
+  const title = document.createElement("h1");
+  title.classList.add('title');
+  title.innerHTML = 'Edit task';
+  form.appendChild(title);
+
+  function createLabel(text) {
+    const label = document.createElement("label");
+    label.textContent = text;
+    return label;
+  }
+  
+  function createTextBox() {
+    const textBox = document.createElement("input");
+    textBox.classList.add('text-box')
+    textBox.type = "text";
+    return textBox;
+  }
+
+  closeSpan.addEventListener('click', closeModal);
+  
+  // Create the label and text box for the title
+  const titleLabel = createLabel("Title");
+  titleLabel.setAttribute('id', 'label');
+  
+  const titleTextBox = createTextBox();
+  titleTextBox.setAttribute('id', 'titleInput');
+  titleTextBox.classList.add('first-text-box');
+  titleTextBox.value = task.formTitle
+  
+  // Create the label and text box for the description
+  const descriptionLabel = createLabel("Description");
+  descriptionLabel.setAttribute('id', 'label');
+  const descriptionTextBox = document.createElement('textarea');
+  descriptionTextBox.setAttribute('id', 'description-input');
+  descriptionTextBox.value = task.formDescription;
+  
+  // Append the label and text box to a container element
+  //const container = document.querySelector("#container");
+  form.appendChild(titleLabel);
+  form.appendChild(titleTextBox);
+  form.appendChild(descriptionLabel);
+  form.appendChild(descriptionTextBox);
+  
+  
+  // Create due date input
+  const dueDateLabel = createLabel("Due Date");
+  dueDateLabel.setAttribute('id', 'label');
+  const dueDateInput = document.createElement("input");
+  dueDateInput.classList.add("due-date")
+  dueDateInput.type = "date";
+  dueDateInput.setAttribute('id', 'dueDateInput');
+  dueDateInput.value = task.dueDate;
+  
+  form.appendChild(dueDateLabel);
+  form.appendChild(dueDateInput);
+  
+  // Create priority selector
+  const priorityLabel = createLabel("Priority");
+  priorityLabel.setAttribute('id', 'label');
+  const prioritySelect = document.createElement("select");
+  prioritySelect.classList.add("select");
+  prioritySelect.setAttribute('id', 'prioritySelect')
+  
+
+  // Create option elements for different priorities
+  const priorities = ["Low", "Medium", "High"];
+  for (let i = 0; i < priorities.length; i++) {
+    const option = document.createElement("option");
+    option.value = priorities[i];
+    option.textContent = priorities[i];
+    prioritySelect.appendChild(option);
+  }
+
+  prioritySelect.value = task.priority;
+  
+  form.appendChild(priorityLabel);
+  form.appendChild(prioritySelect);
+
+  //submit button
+  const submitButton = document.createElement("input");
+  submitButton.classList.add('submit-button')
+  submitButton.type = "submit";
+  submitButton.value = "Submit";
+  form.appendChild(submitButton);
+
+  //add the task to the list with the given information
+  submitButton.addEventListener("click", (event) => {
+    event.preventDefault()
+    addTask(project);
+    form.reset();
+    parentDiv.remove();
+  });
+
+  newDiv.appendChild(closeSpan);
+  newDiv.appendChild(form);
+  parentDiv.appendChild(newDiv);
+
+  return parentDiv;
+}
 
 export { createTaskForm, updateTaskUI};
 

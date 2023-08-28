@@ -1,8 +1,6 @@
 import { create } from "lodash";
 import {createTaskForm, updateTaskUI} from "./addTask";
 
-
-
 const projects = [];
 function Project(name){
   this.name = name;
@@ -141,4 +139,4 @@ function giveProjectId(){
 //edit list name function
 
 
-export { createProjectModal, showModal };
+export { createProjectModal, showModal, closeModal };
