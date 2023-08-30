@@ -139,4 +139,4 @@ function giveProjectId(){
 //edit list name function
 
 
-export { createProjectModal, showModal, closeModal };
+export { createProjectModal, showModal, closeModal, updateProjectUI };

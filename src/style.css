@@ -279,8 +279,8 @@ select{
   padding: 10px;
   display: grid;
   grid-template-areas:
-    'checkbox title title'
-    'checkbox due-date due-date ';
+    'checkbox title title delete'
+    'checkbox due-date due-date delete';
   gap: 3px;
   cursor: pointer;
 }
@@ -338,4 +338,15 @@ input[type=checkbox]{
 
 .checked{
   color: #afafaf;
+}
+
+.delete-div{
+  grid-area: delete;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.delete-button{
+  cursor: pointer;
 }

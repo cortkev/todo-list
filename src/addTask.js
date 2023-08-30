@@ -1,5 +1,6 @@
-import { add, create } from "lodash";
-import {closeModal, showModal} from "./addList";
+import { add, create, defaultsDeep, update } from "lodash";
+import {closeModal, showModal, updateProjectUI} from "./addList";
+import Icon from './delete.svg';
 
 function Task(formTitle, formDescription, dueDate, priority, isChecked){
   this.formTitle = formTitle;
@@ -154,10 +155,10 @@ function addTask(project){
 }
 
 function updateTaskUI(project){
+  console.log("Project ID:", project.id);
   const cardContent = document.querySelector(`[data-project-id="${project.id}"]`);
-
-  console.log(project.id);
-    cardContent.innerHTML = '';
+  console.log("Project ID:", project.id);
+  cardContent.innerHTML = '';
   project.tasks.forEach(task => {
     cardContent.appendChild(createTaskDiv(task));
   });
@@ -192,12 +193,27 @@ function createTaskDiv(task) {
   dueDateElement.setAttribute('id', 'due-date-text')
   dueDateDiv.appendChild(dueDateElement);
 
+  //create delete button
+  const deleteButtonDiv = document.createElement('div');
+  deleteButtonDiv.classList.add('delete-div');
+  const myIcon = new Image();
+  myIcon.src = Icon;
+  myIcon.classList.add("delete-button");
+  deleteButtonDiv.appendChild(myIcon);
+  
   // Append wrapped elements to the task element
   taskElement.appendChild(checkboxDiv);
   taskElement.appendChild(titleDiv);
   taskElement.appendChild(dueDateDiv);
+  taskElement.appendChild(deleteButtonDiv);
 
-  checkbox.addEventListener('change', function() {
+  //event listener to delete the task
+  myIcon.addEventListener('click', function(event) {
+    event.stopPropagation();
+  });
+
+  checkbox.addEventListener('click', function(event) {
+    event.stopPropagation(); //stop event from triggering taskElement
     if (checkbox.checked) {
       // Checkbox is now checked
       task.isChecked = true
@@ -206,7 +222,6 @@ function createTaskDiv(task) {
 
       titleElement.classList.add('checked');
       dueDateElement.classList.add('checked');
-      console.log(task);
     } else {
       // Checkbox is now unchecked
       task.isChecked = false;
@@ -214,19 +229,37 @@ function createTaskDiv(task) {
       dueDateElement.classList.remove('strikethrough');
       titleElement.classList.remove('checked');
       dueDateElement.classList.remove('checked');
-      console.log(task);
     }
   });
 
   taskElement.addEventListener('click', function() {
     showModal(editTaskForm(task));
+    //console.log('taskElement', task);
   });
 
   return taskElement;
 }
 
+// NEED TO MAKE SUBMIT BUTTON EDIT THE TASK
+function editTask(task){
+  const titleInput = document.querySelector('.edit-title-textbox');
+  const descriptionInput = document.querySelector('.edit-description-textbox')
+  const priorityInput = document.querySelector('.edit-priority');
+  const dueDateInput = document.querySelector('.edit-duedate');
+  
+  task.formTitle = titleInput.value;
+  task.formDescription = descriptionInput.value;
+  task.priority = priorityInput.value;
+  task.dueDate = dueDateInput.value;
+  
+  
+  //updateTaskUI(project);
+  updateProjectUI();
+  console.log('after');
+}
+
 function editTaskForm(task) {
-  console.log(task);
+  console.log('editTaskForm', task);
   const parentDiv = document.createElement("div");
   parentDiv.classList.add('modal');
 
@@ -277,44 +310,48 @@ function editTaskForm(task) {
   const titleLabel = createLabel("Title");
   titleLabel.setAttribute('id', 'label');
   
-  const titleTextBox = createTextBox();
-  titleTextBox.setAttribute('id', 'titleInput');
-  titleTextBox.classList.add('first-text-box');
-  titleTextBox.value = task.formTitle
+  const editTitleTextBox = createTextBox();
+  editTitleTextBox.setAttribute('id', 'titleInput');
+   editTitleTextBox.classList.add('first-text-box');
+   editTitleTextBox.classList.add('edit-title-textbox');
+  editTitleTextBox.value = task.formTitle
   
   // Create the label and text box for the description
   const descriptionLabel = createLabel("Description");
   descriptionLabel.setAttribute('id', 'label');
-  const descriptionTextBox = document.createElement('textarea');
-  descriptionTextBox.setAttribute('id', 'description-input');
-  descriptionTextBox.value = task.formDescription;
+  const editDescriptionTextBox = document.createElement('textarea');
+  editDescriptionTextBox.setAttribute('id', 'description-input');
+  editDescriptionTextBox.classList.add('edit-description-textbox');
+  editDescriptionTextBox.value = task.formDescription;
   
   // Append the label and text box to a container element
   //const container = document.querySelector("#container");
   form.appendChild(titleLabel);
-  form.appendChild(titleTextBox);
+  form.appendChild(editTitleTextBox);
   form.appendChild(descriptionLabel);
-  form.appendChild(descriptionTextBox);
+  form.appendChild(editDescriptionTextBox);
   
   
   // Create due date input
   const dueDateLabel = createLabel("Due Date");
   dueDateLabel.setAttribute('id', 'label');
-  const dueDateInput = document.createElement("input");
-  dueDateInput.classList.add("due-date")
-  dueDateInput.type = "date";
-  dueDateInput.setAttribute('id', 'dueDateInput');
-  dueDateInput.value = task.dueDate;
+  const editDueDateInput = document.createElement("input");
+  editDueDateInput.classList.add("due-date")
+  editDueDateInput.type = "date";
+  editDueDateInput.setAttribute('id', 'dueDateInput');
+  editDueDateInput.classList.add('edit-duedate');
+  editDueDateInput.value = task.dueDate;
   
   form.appendChild(dueDateLabel);
-  form.appendChild(dueDateInput);
+  form.appendChild(editDueDateInput);
   
   // Create priority selector
   const priorityLabel = createLabel("Priority");
   priorityLabel.setAttribute('id', 'label');
-  const prioritySelect = document.createElement("select");
-  prioritySelect.classList.add("select");
-  prioritySelect.setAttribute('id', 'prioritySelect')
+  const editPrioritySelect = document.createElement("select");
+  editPrioritySelect.classList.add("select");
+  editPrioritySelect.setAttribute('id', 'prioritySelect');
+  editPrioritySelect.classList.add('edit-priority');
   
 
   // Create option elements for different priorities
@@ -323,25 +360,25 @@ function editTaskForm(task) {
     const option = document.createElement("option");
     option.value = priorities[i];
     option.textContent = priorities[i];
-    prioritySelect.appendChild(option);
+    editPrioritySelect.appendChild(option);
   }
 
-  prioritySelect.value = task.priority;
+  editPrioritySelect.value = task.priority;
   
   form.appendChild(priorityLabel);
-  form.appendChild(prioritySelect);
+  form.appendChild(editPrioritySelect);
 
   //submit button
-  const submitButton = document.createElement("input");
-  submitButton.classList.add('submit-button')
-  submitButton.type = "submit";
-  submitButton.value = "Submit";
-  form.appendChild(submitButton);
+  const editButton = document.createElement("input");
+  editButton.classList.add('submit-button')
+  editButton.type = "submit";
+  editButton.value = "Save";
+  form.appendChild(editButton);
 
   //add the task to the list with the given information
-  submitButton.addEventListener("click", (event) => {
+  editButton.addEventListener("click", (event) => {
     event.preventDefault()
-    addTask(project);
+    editTask(task);
     form.reset();
     parentDiv.remove();
   });
@@ -354,5 +391,3 @@ function editTaskForm(task) {
 }
 
 export { createTaskForm, updateTaskUI};
-
-
