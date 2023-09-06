@@ -90,8 +90,8 @@ function updateProjectUI(){
     projectsContainer.appendChild(createProjectDiv(project)); 
     updateTaskUI(project);
     console.log(projects);
-    
   });
+
 }
 
 function createProjectDiv(project){
@@ -136,7 +136,4 @@ function giveProjectId(){
     const index = projects.map(newProject => newProject.id);
 }
 
-//edit list name function
-
-
-export { createProjectModal, showModal, closeModal, updateProjectUI };
+export { projects, createProjectModal, showModal, closeModal, updateProjectUI };

@@ -1,5 +1,5 @@
 import { add, create, defaultsDeep, update } from "lodash";
-import {closeModal, showModal, updateProjectUI} from "./addList";
+import {closeModal, showModal, updateProjectUI, projects} from "./addList";
 import Icon from './delete.svg';
 
 function Task(formTitle, formDescription, dueDate, priority, isChecked){
@@ -160,11 +160,11 @@ function updateTaskUI(project){
   console.log("Project ID:", project.id);
   cardContent.innerHTML = '';
   project.tasks.forEach(task => {
-    cardContent.appendChild(createTaskDiv(task));
+    cardContent.appendChild(createTaskDiv(task, project));
   });
 }
 
-function createTaskDiv(task) {
+function createTaskDiv(task, project) {
   const taskElement = document.createElement('div');
   taskElement.classList.add('task-summary');
 
@@ -210,6 +210,8 @@ function createTaskDiv(task) {
   //event listener to delete the task
   myIcon.addEventListener('click', function(event) {
     event.stopPropagation();
+    //call delete task function
+    deleteTask(project, task);
   });
 
   checkbox.addEventListener('click', function(event) {
@@ -251,9 +253,6 @@ function editTask(task){
   task.formDescription = descriptionInput.value;
   task.priority = priorityInput.value;
   task.dueDate = dueDateInput.value;
-  
-  
-  //updateTaskUI(project);
   updateProjectUI();
   console.log('after');
 }
@@ -389,5 +388,15 @@ function editTaskForm(task) {
 
   return parentDiv;
 }
+
+//create a function that will delete a task when the delete button is clicked
+function deleteTask(project, taskToDelete) {
+  const index = project.tasks.findIndex(task => task === taskToDelete);
+  if (index !== -1) {
+    project.tasks.splice(index, 1); // Remove the task from the array
+    updateTaskUI(project);
+  }
+}
+
 
 export { createTaskForm, updateTaskUI};

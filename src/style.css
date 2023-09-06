@@ -298,6 +298,10 @@ select{
 .title-div{
   grid-area: title;
   text-align: left;
+  width: 150px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .due-date-div{
   grid-area: due-date;
@@ -344,9 +348,18 @@ input[type=checkbox]{
   grid-area: delete;
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: center;
+  height: 30px;
+  max-height: 30px;
+  border-radius: 3px;
+}
+
+.delete-div:hover{
+  background-color: #ff000000;
 }
 
 .delete-button{
   cursor: pointer;
+  height: 30px;
 }
+
