@@ -1,4 +1,3 @@
-import { add, create, defaultsDeep, update } from "lodash";
 import {closeModal, showModal, updateProjectUI, projects} from "./addList";
 import Icon from './delete.svg';
 
@@ -22,17 +21,6 @@ function createTaskForm(project) {
   closeSpan.setAttribute('id', 'task-close');
   closeSpan.innerHTML = '&times;';
 
-
-  function createLabel(text) {
-    const label = document.createElement("label");
-    label.textContent = text;
-    return label;
-  }
-  function createTextBox() {
-    const textBox = document.createElement("input");
-    textBox.type = "text";
-    return textBox;
-  }
   const form = document.createElement("form");
   form.classList.add('list-form');
   form.setAttribute('id', 'form');
@@ -59,7 +47,7 @@ function createTaskForm(project) {
   
   // Create the label and text box for the title
   const titleLabel = createLabel("Title");
-  titleLabel.setAttribute('id', 'label');
+  titleLabel.setAttribute('class', 'label');
   
   const titleTextBox = createTextBox();
   titleTextBox.setAttribute('id', 'titleInput');
@@ -68,7 +56,7 @@ function createTaskForm(project) {
   
   // Create the label and text box for the description
   const descriptionLabel = createLabel("Description");
-  descriptionLabel.setAttribute('id', 'label');
+  descriptionLabel.setAttribute('class', 'label');
   const descriptionTextBox = document.createElement('textarea');
   descriptionTextBox.setAttribute('id', 'description-input');
   descriptionTextBox.setAttribute('placeholder', 'Description');
@@ -83,7 +71,7 @@ function createTaskForm(project) {
   
   // Create due date input
   const dueDateLabel = createLabel("Due Date");
-  dueDateLabel.setAttribute('id', 'label');
+  dueDateLabel.setAttribute('class', 'label');
   const dueDateInput = document.createElement("input");
   dueDateInput.classList.add("due-date")
   dueDateInput.type = "date";
@@ -94,7 +82,7 @@ function createTaskForm(project) {
   
   // Create priority selector
   const priorityLabel = createLabel("Priority");
-  priorityLabel.setAttribute('id', 'label');
+  priorityLabel.setAttribute('class', 'label');
   const prioritySelect = document.createElement("select");
   prioritySelect.classList.add("select");
   prioritySelect.setAttribute('id', 'prioritySelect')
@@ -307,7 +295,7 @@ function editTaskForm(task) {
   
   // Create the label and text box for the title
   const titleLabel = createLabel("Title");
-  titleLabel.setAttribute('id', 'label');
+  titleLabel.setAttribute('class', 'label');
   
   const editTitleTextBox = createTextBox();
   editTitleTextBox.setAttribute('id', 'titleInput');
@@ -317,7 +305,7 @@ function editTaskForm(task) {
   
   // Create the label and text box for the description
   const descriptionLabel = createLabel("Description");
-  descriptionLabel.setAttribute('id', 'label');
+  descriptionLabel.setAttribute('class', 'label');
   const editDescriptionTextBox = document.createElement('textarea');
   editDescriptionTextBox.setAttribute('id', 'description-input');
   editDescriptionTextBox.classList.add('edit-description-textbox');
@@ -333,7 +321,7 @@ function editTaskForm(task) {
   
   // Create due date input
   const dueDateLabel = createLabel("Due Date");
-  dueDateLabel.setAttribute('id', 'label');
+  dueDateLabel.setAttribute('class', 'label');
   const editDueDateInput = document.createElement("input");
   editDueDateInput.classList.add("due-date")
   editDueDateInput.type = "date";
@@ -346,7 +334,7 @@ function editTaskForm(task) {
   
   // Create priority selector
   const priorityLabel = createLabel("Priority");
-  priorityLabel.setAttribute('id', 'label');
+  priorityLabel.setAttribute('class', 'label');
   const editPrioritySelect = document.createElement("select");
   editPrioritySelect.classList.add("select");
   editPrioritySelect.setAttribute('id', 'prioritySelect');

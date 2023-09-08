@@ -18,10 +18,12 @@ body {
   background-color: #212121;
   min-height: 100vh;
   display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: flex-start;
 }
 
-.card{
-  /* border: 2px solid #007bff; */
+.card{    
   border-radius: 5px;
   margin: 10px;
   width: 300px;
@@ -144,6 +146,10 @@ select{
   font-size: 2rem;
   padding: 20px;
   background-color: #303030;
+}
+
+#header{
+  margin-left: 30px;
 }
 
 .create-project-button{
@@ -332,7 +338,7 @@ input[type=checkbox]{
   font-size: 1.5rem;
 }
 
-#label{
+.label{
   color: white;
 }
 
@@ -355,7 +361,7 @@ input[type=checkbox]{
 }
 
 .delete-div:hover{
-  background-color: #ff000000;
+  background-color: #424242;
 }
 
 .delete-button{
