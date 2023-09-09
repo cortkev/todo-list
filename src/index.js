@@ -1,6 +1,10 @@
 import _, { add } from 'lodash';
-import { createProjectModal, showModal } from './addList';
+import { createProjectModal, showModal, loadFromLocalStorage } from './addList';
 import './style.css';
+
+window.onload = function () {
+  loadFromLocalStorage();
+}
 
 function createProjectContainer() {
   // Get the container element where the button will be appended

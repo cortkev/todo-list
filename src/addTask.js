@@ -1,5 +1,7 @@
-import {closeModal, showModal, updateProjectUI, projects} from "./addList";
+import {closeModal, showModal, updateProjectUI, saveToLocalStorage} from "./addList";
 import Icon from './delete.svg';
+import { format, parse } from 'date-fns';
+import { el } from "date-fns/locale";
 
 function Task(formTitle, formDescription, dueDate, priority, isChecked){
   this.formTitle = formTitle;
@@ -138,6 +140,7 @@ function addTask(project){
   if(taskName){
     const newTask = new Task(formTitle, formDescription, dueDate, priority, isChecked);
     project.tasks.push(newTask);
+    saveToLocalStorage();
     updateTaskUI(project);
   }
 }
@@ -170,16 +173,27 @@ function createTaskDiv(task, project) {
   titleDiv.classList.add('title-div');
   const titleElement = document.createElement('span');
   titleElement.textContent = task.formTitle;
-  titleElement.setAttribute('id', 'title-text')
+  titleElement.setAttribute('class', 'title-text')
   titleDiv.appendChild(titleElement);
 
   // Wrap due date element in its own div
   const dueDateDiv = document.createElement('div');
   dueDateDiv.classList.add('due-date-div');
   const dueDateElement = document.createElement('span');
-  dueDateElement.textContent = task.dueDate;
-  dueDateElement.setAttribute('id', 'due-date-text')
+
+  // Format the date and display it if it exists
+  if(task.dueDate !== '') {
+  const parsedDate = parse(task.dueDate, 'yyyy-MM-dd', new Date(), { timeZone: 'UTC' });
+  const formattedDueDate = format(parsedDate, 'MM-dd-yy', { timeZone: 'UTC' });
+  dueDateElement.textContent = formattedDueDate;
+  dueDateElement.setAttribute('class', 'due-date-text')
   dueDateDiv.appendChild(dueDateElement);
+  }
+  else{
+    dueDateElement.textContent = task.dueDate;
+    dueDateElement.setAttribute('class', 'due-date-text')
+    dueDateDiv.appendChild(dueDateElement);
+  }
 
   //create delete button
   const deleteButtonDiv = document.createElement('div');
@@ -202,24 +216,41 @@ function createTaskDiv(task, project) {
     deleteTask(project, task);
   });
 
+  //if the task is checked, add the checked class, and checkbox is checked
+  if (task.isChecked) {
+    titleElement.classList.add('checked');
+    dueDateElement.classList.add('checked');
+    checkbox.checked = true;
+    taskElement.classList.add('task-summary-checked');
+    taskElement.classList.remove('task-summary-unchecked');
+  } 
+  else {
+    titleElement.classList.remove('checked');
+    dueDateElement.classList.remove('checked');
+    checkbox.checked = false;
+    taskElement.classList.remove('task-summary-checked')
+    taskElement.classList.add('task-summary-unchecked');
+  }
+
   checkbox.addEventListener('click', function(event) {
     event.stopPropagation(); //stop event from triggering taskElement
     if (checkbox.checked) {
       // Checkbox is now checked
       task.isChecked = true
-      titleElement.classList.add('strikethrough');
-      dueDateElement.classList.add('strikethrough');
-
       titleElement.classList.add('checked');
       dueDateElement.classList.add('checked');
+      taskElement.classList.add('task-summary-checked');
+      taskElement.classList.remove('task-summary-unchecked');
     } else {
       // Checkbox is now unchecked
       task.isChecked = false;
-      titleElement.classList.remove('strikethrough');
-      dueDateElement.classList.remove('strikethrough');
       titleElement.classList.remove('checked');
       dueDateElement.classList.remove('checked');
+      taskElement.classList.remove('task-summary-checked')
+      taskElement.classList.add('task-summary-unchecked');
     }
+    saveToLocalStorage();
+    
   });
 
   taskElement.addEventListener('click', function() {
@@ -230,7 +261,6 @@ function createTaskDiv(task, project) {
   return taskElement;
 }
 
-// NEED TO MAKE SUBMIT BUTTON EDIT THE TASK
 function editTask(task){
   const titleInput = document.querySelector('.edit-title-textbox');
   const descriptionInput = document.querySelector('.edit-description-textbox')
@@ -241,6 +271,7 @@ function editTask(task){
   task.formDescription = descriptionInput.value;
   task.priority = priorityInput.value;
   task.dueDate = dueDateInput.value;
+  saveToLocalStorage();
   updateProjectUI();
   console.log('after');
 }
@@ -382,9 +413,9 @@ function deleteTask(project, taskToDelete) {
   const index = project.tasks.findIndex(task => task === taskToDelete);
   if (index !== -1) {
     project.tasks.splice(index, 1); // Remove the task from the array
+    saveToLocalStorage();
     updateTaskUI(project);
   }
 }
-
 
 export { createTaskForm, updateTaskUI};

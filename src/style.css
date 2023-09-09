@@ -1,14 +1,3 @@
-/* CSS Reset or Normalize */
-/* Include your preferred reset or normalization CSS file or code here */
-
-/* Global Styles */
-:root {
-    /* Define your color palette using CSS variables */
-    --primary-color: #007bff;
-    --secondary-color: #6c757d;
-    --text-color: #333;
-  }
-  
 body {
   font-family: Arial, sans-serif;
   margin: 0;
@@ -39,6 +28,11 @@ body {
   margin-bottom: 8px;
   background-color: #007bff;
   color: white;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-right: 10px;
+  margin-left: 10px;
 }
 
 .card-content{
@@ -47,9 +41,6 @@ body {
   padding: 20px;
   overflow: auto;
 }
-
-
-
 
 #project-name-input{
   background-color: #424242;
@@ -234,7 +225,7 @@ select{
   cursor: pointer;
 }
 
-#createProjectSubmitButton{
+.create-project-submit-button{
   padding: 5px 15px;
   background: #424242;
   color: white;
@@ -248,13 +239,13 @@ select{
   margin-top: 40px;
 }
 
-#createProjectSubmitButton:hover{
+.create-project-submit-button:hover{
   background-color: #525252;
 }
 
 
 /* project */
-#add-task-button{
+.add-task-button{
   background: #424242;
   color: white;
   border-style: none;
@@ -267,11 +258,11 @@ select{
   font-size: 1rem;
 }
 
-#add-task-button:hover{
+.add-task-button:hover{
   background-color: #525252 /* Change to the desired hover background color */
 }
 
-.task-summary{
+/* .task-summary{
   background-color: #424242;
   color:  white;
   display: flex;
@@ -279,10 +270,14 @@ select{
   list-style: none;
   margin-bottom: 3px;
   border-radius: 3px;
-}
+} */
 
 .task-summary {
+  color:  white;
   padding: 10px;
+  list-style: none;
+  margin-bottom: 3px;
+  border-radius: 3px;
   display: grid;
   grid-template-areas:
     'checkbox title title delete'
@@ -293,6 +288,14 @@ select{
 
 .task-summary:hover{
   background-color: #525252;
+}
+
+.task-summary-unchecked{
+  background-color: #424242;
+}
+
+.task-summary-checked{
+  background-color: #363636;
 }
 
 .checkbox-div{
@@ -330,11 +333,11 @@ input[type=checkbox]{
   margin-top: 0.5rem;
 }
 
-#due-date-text{
+.due-date-text{
   font-size: 12px;
 }
 
-#title-text{
+.title-text{
   font-size: 1.5rem;
 }
 
@@ -342,12 +345,9 @@ input[type=checkbox]{
   color: white;
 }
 
-.strikethrough {
-  text-decoration: line-through;
-}
-
 .checked{
   color: #afafaf;
+  text-decoration: line-through;
 }
 
 .delete-div{

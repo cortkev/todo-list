@@ -31,7 +31,7 @@ function createProjectModal() {
   
   // create project submit button
   const createProjectSubmitButton = document.createElement('button');
-  createProjectSubmitButton.setAttribute('id', 'createProjectSubmitButton');
+  createProjectSubmitButton.setAttribute('class', 'create-project-submit-button');
   createProjectSubmitButton.textContent = 'Create';
 
   closeSpan.addEventListener('click', closeModal);
@@ -74,7 +74,7 @@ function addProject(){
   if(projectName){
   const newProject = new Project(projectName);
   projects.push(newProject);
-  
+  saveToLocalStorage();
   updateProjectUI();
   }
   closeModal();
@@ -112,7 +112,7 @@ function createProjectDiv(project){
 
   //add task button
   const addTaskButton = document.createElement('button');
-  addTaskButton.setAttribute('id', 'add-task-button');
+  addTaskButton.setAttribute('class', 'add-task-button');
   addTaskButton.textContent = 'Add Task +';
   //click add task
   addTaskButton.addEventListener("click", function () {
@@ -136,4 +136,18 @@ function giveProjectId(){
     const index = projects.map(newProject => newProject.id);
 }
 
-export { projects, createProjectModal, showModal, closeModal, updateProjectUI };
+function saveToLocalStorage(){
+  localStorage.setItem('projects', JSON.stringify(projects));
+}
+
+function loadFromLocalStorage() {
+  const savedProjects = JSON.parse(localStorage.getItem('projects'));
+  if (savedProjects) {
+    // Clear existing projects and load from local storage
+    projects.length = 0; // This clears the array without creating a new reference
+    projects.push(...savedProjects); // Push saved projects into the array
+    updateProjectUI();
+  }
+}
+
+export { projects, createProjectModal, showModal, closeModal, updateProjectUI, saveToLocalStorage, loadFromLocalStorage};
