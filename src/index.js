@@ -1,5 +1,6 @@
 import _, { add } from 'lodash';
-import { createProjectModal, showModal, loadFromLocalStorage } from './addList';
+import { createProjectModal, showModal } from './dom.js';
+import { loadFromLocalStorage } from './app.js';
 import './style.css';
 
 window.onload = function () {

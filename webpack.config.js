@@ -5,8 +5,8 @@ module.exports = {
   mode: 'development',
   entry: {
     index: './src/index.js',
-    addTask: './src/addTask.js',
-    addList: './src/addList.js',
+    app: './src/app.js',
+    dom: './src/dom.js',
 
   },
   devtool: 'inline-source-map',
