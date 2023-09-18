@@ -20,7 +20,7 @@
   "bugs": {
     "url": "https://github.com/cortkev/todo-list/issues"
   },
-  "homepage": "https://github.com/cortkev/todo-list#readme",
+  "homepage": "https://github.com/cortkev/todo-list/index.html",
   "devDependencies": {
     "css-loader": "^6.8.1",
     "gh-pages": "^6.0.0",
